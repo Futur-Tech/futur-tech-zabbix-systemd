@@ -6,6 +6,7 @@ The only difference with the official template is:
 - Discovery every 6h instead of 30min
 - deploy.sh to setup proper permission for **Zabbix Agent 2**
 - Macro `{$SYSTEMD.NAME.SERVICE.NOT_MATCHES} = rsync.service`
+- Added item and trigger for result of `systemctl is-system-running`
 
 Works for Zabbix 5.x Active Agent 2
 

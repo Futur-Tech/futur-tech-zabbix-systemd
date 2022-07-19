@@ -19,13 +19,12 @@ else
 fi
 
 # Looking for the log file.... if not define then setup a default one
-if [ -z "$LOG_FILE" ]
+if [ -z ${LOG_FILE+x} ]
 then 
     export LOG_FILE="$S_DIR_PATH/$S_DIR_NAME-${S_NAME%.*}.log"
 fi
 
 # Looking for debug var...
-if [ -z "$LOG_DEBUG" ]
-then 
+if [ -z ${LOG_DEBUG+x} ] ; then 
     export LOG_DEBUG=false
 fi
