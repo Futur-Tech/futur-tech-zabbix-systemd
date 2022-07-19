@@ -27,7 +27,7 @@ echo "
 $S_LOG -d $S_NAME -d "$sudoers_etc" "==============================="
 
 echo 'Defaults:zabbix !requiretty' | sudo EDITOR='tee' visudo --file=$sudoers_etc &>/dev/null
-echo 'zabbix ALL=(ALL) NOPASSWD:systemctl is-system-running' | sudo EDITOR='tee -a' visudo --file=$sudoers_etc &>/dev/null
+echo 'zabbix ALL=(ALL) NOPASSWD:/usr/bin/rdiff-backup --server --restrict-read-only /' | sudo EDITOR='tee -a' visudo --file=$sudoers_etc &>/dev/null
 
 cat $sudoers_etc | $S_LOG -d "$S_NAME" -d "$sudoers_etc" -i 
 
