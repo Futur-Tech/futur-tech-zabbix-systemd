@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2022-05-25T14:38:55Z</date>
+    <date>2022-07-19T16:07:32Z</date>
     <groups>
         <group>
             <name>Templates/Futur-Tech/Applications</name>
@@ -25,6 +25,49 @@
                     <name>Zabbix raw items</name>
                 </application>
             </applications>
+            <items>
+                <item>
+                    <name>System state</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.run[&quot;systemctl is-system-running&quot;]</key>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <applications>
+                        <application>
+                            <name>Systemd</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <params>30m</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;&gt;&quot;running&quot;</expression>
+                            <name>System state is {ITEM.LASTVALUE}</name>
+                            <priority>HIGH</priority>
+                            <description>System state is not &quot;running&quot;.&#13;
+Useful commands for debugging:&#13;
+systemctl --failed&#13;
+systemctl list-units&#13;
+systemctl status</description>
+                            <dependencies>
+                                <dependency>
+                                    <name>System state is {ITEM.LASTVALUE}</name>
+                                    <expression>{Template Futur-Tech App Systemd by Zabbix agent 2:system.run[&quot;systemctl is-system-running&quot;].last()}=&quot;initializing&quot; or {Template Futur-Tech App Systemd by Zabbix agent 2:system.run[&quot;systemctl is-system-running&quot;].last()}=&quot;starting&quot; or {Template Futur-Tech App Systemd by Zabbix agent 2:system.run[&quot;systemctl is-system-running&quot;].last()}=&quot;stopping&quot;</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}=&quot;initializing&quot; or {last()}=&quot;starting&quot; or {last()}=&quot;stopping&quot;</expression>
+                            <name>System state is {ITEM.LASTVALUE}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
             <discovery_rules>
                 <discovery_rule>
                     <name>Service units discovery</name>
