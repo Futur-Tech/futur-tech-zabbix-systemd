@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2022-07-19T16:07:32Z</date>
+    <date>2023-01-17T09:24:28Z</date>
     <groups>
         <group>
             <name>Templates/Futur-Tech/Applications</name>
@@ -251,6 +251,7 @@ systemctl status</description>
                             <name>{#UNIT.NAME}: Get unit info</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>systemd.unit.get[&quot;{#UNIT.NAME}&quot;]</key>
+                            <delay>3m</delay>
                             <history>0</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -361,6 +362,7 @@ systemctl status</description>
                             <name>{#UNIT.NAME}: Get unit info</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>systemd.unit.get[&quot;{#UNIT.NAME}&quot;,Socket]</key>
+                            <delay>3m</delay>
                             <history>0</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
