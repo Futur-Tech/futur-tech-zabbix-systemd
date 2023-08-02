@@ -1,0 +1,53 @@
+zabbix_export:
+  version: '6.0'
+  date: '2023-08-02T19:52:17Z'
+  groups:
+    - uuid: 7f27dc73981940769811e7fae4a26772
+      name: Templates/Futur-Tech/Applications
+  templates:
+    - uuid: eaf9cd920d23461986157f65c166c0ac
+      template: 'Futur-Tech App Systemd'
+      name: 'Futur-Tech App Systemd'
+      description: 'https://github.com/Futur-Tech/futur-tech-zabbix-systemd'
+      templates:
+        - name: 'Systemd by Zabbix agent 2'
+      groups:
+        - name: Templates/Futur-Tech/Applications
+      items:
+        - uuid: c3fa5fc525214bb681be57a17d9250f9
+          name: 'System state'
+          type: ZABBIX_ACTIVE
+          key: 'system.run["systemctl is-system-running"]'
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 30m
+          tags:
+            - tag: Application
+              value: Systemd
+          triggers:
+            - uuid: e5b66d3cabe4486887378afa566352d9
+              expression: 'last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])<>"running"'
+              name: 'System state is {ITEM.LASTVALUE}'
+              priority: HIGH
+              description: |
+                System state is not "running".
+                Useful commands for debugging:
+                systemctl --failed
+                systemctl list-units
+                systemctl status
+              dependencies:
+                - name: 'System state is {ITEM.LASTVALUE}'
+                  expression: 'last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="initializing" or last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="starting" or last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="stopping"'
+            - uuid: 05966a5e300241a4bd28ab18397f7afc
+              expression: 'last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="initializing" or last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="starting" or last(/Futur-Tech App Systemd/system.run["systemctl is-system-running"])="stopping"'
+              name: 'System state is {ITEM.LASTVALUE}'
+              priority: WARNING
+      tags:
+        - tag: Futur-Tech
+      macros:
+        - macro: '{$SYSTEMD.NAME.SERVICE.NOT_MATCHES}'
+          value: rsync.service
+          description: 'Filter of systemd service units by name'
