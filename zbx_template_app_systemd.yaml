@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.0'
-  date: '2023-08-03T19:09:09Z'
+  date: '2023-09-01T10:20:55Z'
   groups:
     - uuid: 7f27dc73981940769811e7fae4a26772
       name: Templates/Futur-Tech/Applications
@@ -54,5 +54,5 @@ zabbix_export:
         - tag: Futur-Tech
       macros:
         - macro: '{$SYSTEMD.NAME.SERVICE.NOT_MATCHES}'
-          value: rsync.service
+          value: rsync.service|e2scrub_reap.service|systemd-pstore.service
           description: 'Filter of systemd service units by name'
